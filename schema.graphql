@@ -1,0 +1,19 @@
+type Event @entity {
+    id: ID! # transaction hash + log index
+
+    tx: String! # transaction hash
+    from: String! # account that triggered the TX
+
+    blockNumber: BigInt! # block number where event occurred so that events can be ordered
+    blockTimestamp: BigInt!
+
+    type: String!
+    keys: [String!]
+    values: [String!]
+}
+
+type Claim @entity {
+    id: ID! # user address
+
+    amount: BigInt! # KETH amount claimed
+}

@@ -1,0 +1,47 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: KSquaredLending
+    network: {{ network }}
+    source:
+      address: "{{K2Address}}"
+      abi: KSquaredLending
+      startBlock: {{ K2StartBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Event
+        - Claim
+      abis:
+        - name: KSquaredLending
+          file: ./abis/KSquaredLending.json
+      eventHandlers:
+        - event: KETHDeposited(indexed address,uint256)
+          handler: handleDeposit
+        - event: KETHWithdrawn(indexed address,uint256)
+          handler: handleWithdraw
+        - event: KETHClaimed(indexed address,uint256)
+          handler: handleClaim
+        - event: NodeOperatorDeposited(indexed address,indexed bytes,indexed address)
+          handler: handleNodeOperatorDeposit
+        - event: NodeOperatorWithdrawn(indexed address,indexed bytes,bool)
+          handler: handleNodeOperatorWithdraw
+        - event: NodeOperatorClaimed(indexed bytes,indexed address,uint256)
+          handler: handleNodeOperatorClaim
+        - event: Slashed(address,uint256,address)
+          handler: handleSlash
+        - event: Terminated(address)
+          handler: handleTerminate
+        - event: Liquidated(indexed address,indexed address,uint256)
+          handler: handleLiquidated
+        - event: RepaidSlashAmount(indexed address,uint256)
+          handler: handleTopUp
+        - event: Borrowed(indexed address,uint256,indexed address,uint256,uint256,uint256)
+          handler: handleBorrow
+        - event: IncreasedDebt(indexed address,uint256,indexed address,uint256,uint256,bool,uint256)
+          handler: handleIncreaseDebt
+      file: ./src/k2.ts

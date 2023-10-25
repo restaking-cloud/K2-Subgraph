@@ -1,0 +1,24 @@
+{
+  "name": "k2-subgraph",
+  "version": "1.0.0",
+  "description": "K2 contract data",
+  "scripts": {
+    "initial-setup-goerli": "mustache config/goerli.json subgraph.template.yaml > subgraph.yaml",
+    "initial-setup-mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "auth-hosted": "graph auth --product hosted-service",
+    "auth-studio": "graph auth --studio",
+    "deploy-live": "graph deploy --product hosted-service bsn-eng/k2-mainnet",
+    "deploy-staging": "graph deploy --product hosted-service bsn-eng/k2-goerli",
+    "deploy-studio-staging": "graph deploy --studio k2-goerli",
+    "deploy-studio-live": "graph deploy --studio k2"
+  },
+  "author": "Abstract Systems SEZC",
+  "license": "MIT",
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.48.0",
+    "@graphprotocol/graph-ts": "0.29.3",
+    "mustache": "^3.1.0"
+  }
+}
